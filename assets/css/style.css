@@ -1820,5 +1820,11 @@ section {
 
   #footer .credits {
     padding-top: 4px;
+  }  
+  }
+
+  /*-----------Custom-------------*/
+  .justifyp p{
+    text-align: justify;
   }
 }
