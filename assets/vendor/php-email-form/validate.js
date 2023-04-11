@@ -6,80 +6,68 @@
 (function () {
   "use strict";
 
-  let forms = document.querySelectorAll('.php-email-form');
+  /**
+   * Send msg to discord
+   */
+  const form = document.getElementById('message-form');
+  const successMessage = document.getElementById('donemsg');
+  const loadingMessage = document.getElementById('msdload');
+  const errorMessage = document.getElementById('errmsg');
 
-  forms.forEach( function(e) {
-    e.addEventListener('submit', function(event) {
-      event.preventDefault();
+  form.addEventListener('submit', sendMessage);
 
-      let thisForm = this;
+  function sendMessage(event) {
+    event.preventDefault();
+    errorMessage.style.display = 'none';
+    successMessage.style.display = 'none';
+    loadingMessage.style.display = 'block';
 
-      let action = thisForm.getAttribute('action');
-      let recaptcha = thisForm.getAttribute('data-recaptcha-site-key');
-      
-      if( ! action ) {
-        displayError(thisForm, 'The form action property is not set!');
-        return;
-      }
-      thisForm.querySelector('.loading').classList.add('d-block');
-      thisForm.querySelector('.error-message').classList.remove('d-block');
-      thisForm.querySelector('.sent-message').classList.remove('d-block');
+    const name = document.getElementById('name').value;
+    const hpno = document.getElementById('hpnum').value;
+    const subject = document.getElementById('subject').value;
+    const message = document.getElementById('message').value;
 
-      let formData = new FormData( thisForm );
+    const webhookUrl = "https://discord.com/api/webhooks/1095264915549327461/7YojGnWTg_ipgmrYrLwch0a7eb7eVgY8_yeJ96vonNOgQ_SleZzDBTYByVDlD61Wtwf1";
 
-      if ( recaptcha ) {
-        if(typeof grecaptcha !== "undefined" ) {
-          grecaptcha.ready(function() {
-            try {
-              grecaptcha.execute(recaptcha, {action: 'php_email_form_submit'})
-              .then(token => {
-                formData.set('recaptcha-response', token);
-                php_email_form_submit(thisForm, action, formData);
-              })
-            } catch(error) {
-              displayError(thisForm, error);
-            }
-          });
-        } else {
-          displayError(thisForm, 'The reCaptcha javascript API url is not loaded!')
-        }
-      } else {
-        php_email_form_submit(thisForm, action, formData);
-      }
-    });
-  });
+    const payload = {
+      embeds: [{
+        title: name,
+        fields: [
+          {
+            name: hpno,
+            value: subject + '\n' + message,
+            inline: true
+          }
+        ],
+        footer: {
+          text: 'Send from safety-ac.com - contact'
+        },
+        color: 14177041
+      }]
+    };
 
-  function php_email_form_submit(thisForm, action, formData) {
-    fetch(action, {
+    fetch(webhookUrl, {
       method: 'POST',
-      body: formData,
-      headers: {'X-Requested-With': 'XMLHttpRequest'}
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(payload)
     })
     .then(response => {
-      if( response.ok ) {
-        return response.text();
-      } else {
-        throw new Error(`${response.status} ${response.statusText} ${response.url}`); 
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
+      loadingMessage.style.display = 'none';
+      errorMessage.style.display = 'none';
+      successMessage.style.display = 'block';
     })
-    .then(data => {
-      thisForm.querySelector('.loading').classList.remove('d-block');
-      if (data.trim() == 'OK') {
-        thisForm.querySelector('.sent-message').classList.add('d-block');
-        thisForm.reset(); 
-      } else {
-        throw new Error(data ? data : 'Form submission failed and no error message returned from: ' + action); 
-      }
-    })
-    .catch((error) => {
-      displayError(thisForm, error);
+    .catch(error => {
+      console.error(error);
+      loadingMessage.style.display = 'none';
+      successMessage.style.display = 'none';
+      errorMessage.style.display = 'block';
     });
   }
 
-  function displayError(thisForm, error) {
-    thisForm.querySelector('.loading').classList.remove('d-block');
-    thisForm.querySelector('.error-message').innerHTML = error;
-    thisForm.querySelector('.error-message').classList.add('d-block');
-  }
-
-})();
+}
+)();

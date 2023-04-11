@@ -574,7 +574,6 @@ section {
   transition: all 0.4s ease-in-out;
   display: inline-block;
   padding: 15px 0;
-  filter: grayscale(100);
 }
 
 .clients img:hover {
@@ -1826,5 +1825,12 @@ section {
   /*-----------Custom-------------*/
   .justifyp p{
     text-align: justify;
+  }
+
+  .box-btn a{
+    position: absolute;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
   }
 }
