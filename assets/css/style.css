@@ -896,8 +896,29 @@ section {
   font-weight: 700;
 }
 
-.cta p {
+.cta p{
   color: #fff;
+}
+
+.cta ul {
+  padding: 0 0;
+  list-style: none;
+  color: #fff;
+  text-align: left;
+  line-height: 20px;
+}
+
+.cta ul li {
+  padding: 10px 0 10px 30px;
+  position: relative;
+}
+
+.cta ul i {
+  color: #28a745;
+  font-size: 24px;
+  position: absolute;
+  left: 0;
+  top: 6px;
 }
 
 .cta .cta-btn {
