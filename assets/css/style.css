@@ -1231,7 +1231,7 @@ section {
 }
 
 .pricing ul {
-  padding: 20px 0;
+  padding: 0 0;
   list-style: none;
   color: #999;
   text-align: left;
@@ -1274,6 +1274,10 @@ section {
   font-family: "Jost", sans-serif;
   transition: 0.3s;
   border: 1px solid #47b2e4;
+  position: absolute;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .pricing .buy-btn:hover {
@@ -1281,9 +1285,55 @@ section {
   color: #fff;
 }
 
-.pricing .featured {
-  border-top-color: #47b2e4;
+#pricing .btn-watch-video {
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  transition: 0.5s;
+  margin: 0;
+  color: red;
+  line-height: 1;
 }
+
+#pricing .btn-watch-video i {
+  line-height: 0;
+  color: red;
+  font-size: 25px;
+  transition: 0.3s;
+  margin-right: 8px;
+}
+
+#pricing .btn-watch-video:hover {
+  color: #47b2e4;
+}
+
+
+.pricing .featured {
+  border-top: 4px solid red;
+  border-bottom: 4px solid red;
+  animation: blink 1.5s linear infinite;
+}
+
+@keyframes blink {
+  50% {
+    border-color: transparent;
+  }
+}
+
+.pricing .featured:before {
+  content: "Most Popular";
+  position: absolute;
+  top: 0px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: red;
+  color: #fff;
+  padding: 5px;
+  border-radius: 5px;
+  font-weight: bold;
+  font-size: 14px;
+}
+
 
 .pricing .featured .buy-btn {
   background: #47b2e4;
@@ -1825,12 +1875,5 @@ section {
   /*-----------Custom-------------*/
   .justifyp p{
     text-align: justify;
-  }
-
-  .box-btn a{
-    position: absolute;
-    bottom: 15px;
-    left: 50%;
-    transform: translateX(-50%);
   }
 }
