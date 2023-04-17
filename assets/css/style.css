@@ -1709,6 +1709,10 @@ section {
   background: #37517e;
 }
 
+#respond-hpsend {
+  color: black;
+}
+
 #footer .footer-newsletter {
   padding: 50px 0;
   background: #f3f5fa;
@@ -1736,7 +1740,7 @@ section {
   text-align: left;
 }
 
-#footer .footer-newsletter form input[type=email] {
+#footer .footer-newsletter form input[id=hpnum2] {
   border: 0;
   padding: 4px 8px;
   width: calc(100% - 100px);
